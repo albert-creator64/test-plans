@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Конструктор тест-планов",
-    "updated": "2026-10-14T10:14:13.996Z"
+    "updated": "2026-10-14T10:26:19.047Z"
   },
   "columns": [
     {
@@ -6025,5 +6025,836 @@
       ]
     }
   ],
-  "plans": []
+  "plans": [
+    {
+      "id": "mv7yst8ydhp3",
+      "name": "Тест-план 14.10.2026",
+      "ver": "",
+      "env": "",
+      "tester": "",
+      "created": "2026-10-14T10:26:16.985Z",
+      "updated": "2026-10-14T10:26:16.986Z",
+      "items": [
+        {
+          "caseId": "case-1",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-2",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-3",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-4",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-5",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-6",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-7",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-8",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-9",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-10",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-11",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-12",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-13",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-14",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-15",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-16",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-17",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-18",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-19",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-20",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-21",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-22",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-23",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-24",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-25",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-26",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-27",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-28",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-29",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-30",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-31",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-32",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-33",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-34",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-35",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-36",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-37",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-38",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-39",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-40",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-41",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-42",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-43",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-44",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-45",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-46",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-47",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.985Z"
+        },
+        {
+          "caseId": "case-48",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-49",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-50",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-51",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-52",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-53",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-54",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-55",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-56",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-57",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-58",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-59",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-60",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-61",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-62",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-63",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-64",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-65",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-66",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-67",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-68",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-69",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-70",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-71",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-72",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-73",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-74",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-75",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-76",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-77",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-78",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-79",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-80",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-81",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-82",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-83",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-84",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-85",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-86",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-87",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-88",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-89",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-90",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        },
+        {
+          "caseId": "case-91",
+          "result": "",
+          "params": {
+            "custom": []
+          },
+          "comment": "",
+          "updated": "2026-10-14T10:26:16.986Z"
+        }
+      ]
+    }
+  ]
 }
