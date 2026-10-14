@@ -21,6 +21,7 @@
   </nav>
   <div class="topbar-right">
     <span class="save-status" id="saveStatus">—</span>
+    <button class="theme-btn" id="themeBtn" title="Тема" onclick="toggleTheme()">🌙</button>
   </div>
 </header>
 
@@ -28,6 +29,16 @@
 
   <!-- КАТАЛОГ -->
   <section id="view-catalog" class="view">
+    <div class="cat-toolbar">
+      <div class="sec-title">Каталог кейсов</div>
+      <div class="toolbar-actions">
+        <button class="btn ghost" onclick="addCaseModal()">＋ Кейс</button>
+        <button class="btn ghost" onclick="exportCatalogJson()">Экспорт JSON</button>
+        <button class="btn ghost" onclick="exportCatalogCsv()">Экспорт CSV</button>
+        <label class="btn ghost file-btn">Импорт JSON<input type="file" accept=".json,application/json" hidden onchange="importCatalogFile(this)"></label>
+      </div>
+    </div>
+
     <div class="filters">
       <input type="search" id="fSearch" class="f-search" placeholder="Поиск по № , описанию, заказу, валюте…" oninput="renderCatalog()">
       <select id="fPriority" onchange="renderCatalog()"><option value="">Приоритет: все</option></select>
@@ -81,7 +92,10 @@
   <section id="view-plans" class="view" style="display:none">
     <div class="plans-head">
       <div class="sec-title">Мои тест-планы</div>
-      <button class="btn primary" onclick="createPlan()">＋ Новый тест-план</button>
+      <div class="plans-head-actions">
+        <select id="fRelease" onchange="renderPlans()"></select>
+        <button class="btn primary" onclick="createPlan()">＋ Новый тест-план</button>
+      </div>
     </div>
     <div id="plansList" class="plans-grid"></div>
   </section>
@@ -91,6 +105,7 @@
     <div class="plan-top">
       <button class="btn ghost" onclick="goView('plans')">← К списку</button>
       <div class="plan-top-actions">
+        <button class="btn ghost" onclick="openCompare()">Сравнить…</button>
         <button class="btn ghost" onclick="exportPlanCsv()">Экспорт CSV</button>
         <button class="btn ghost" onclick="exportPlanJson()">Экспорт JSON</button>
         <button class="btn danger" onclick="deleteCurrentPlan()">Удалить план</button>
@@ -127,6 +142,7 @@
             <th>Оплата</th>
             <th>Валюта</th>
             <th>Описание</th>
+            <th class="assignee-col">Ответств.</th>
             <th class="res-col">Результат</th>
             <th class="params-col">Параметры</th>
             <th class="ck"></th>
