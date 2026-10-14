@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Конструктор тест-планов</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-logo">✓</div>
+    <div>
+      <div class="brand-name">Конструктор тест-планов</div>
+      <div class="brand-sub">сценарии тестирования · приёмка / выдача / оплата / возвраты</div>
+    </div>
+  </div>
+  <nav class="tabs">
+    <button class="tab on" data-view="catalog" onclick="goView('catalog')">Каталог кейсов</button>
+    <button class="tab" data-view="plans" onclick="goView('plans')">Тест-планы <span class="pill" id="plansCount">0</span></button>
+  </nav>
+  <div class="topbar-right">
+    <span class="save-status" id="saveStatus">—</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- КАТАЛОГ -->
+  <section id="view-catalog" class="view">
+    <div class="filters">
+      <input type="search" id="fSearch" class="f-search" placeholder="Поиск по № , описанию, заказу, валюте…" oninput="renderCatalog()">
+      <select id="fPriority" onchange="renderCatalog()"><option value="">Приоритет: все</option></select>
+      <select id="fStatus" onchange="renderCatalog()"><option value="">Статус: все</option></select>
+      <select id="fCountry" onchange="renderCatalog()"><option value="">Страна: все</option></select>
+      <select id="fShipping" onchange="renderCatalog()"><option value="">Отгрузка: все</option></select>
+      <select id="fPayType" onchange="renderCatalog()"><option value="">Оплата: все</option></select>
+      <select id="fCurrency" onchange="renderCatalog()"><option value="">Валюта: все</option></select>
+      <select id="fPlant" onchange="renderCatalog()"><option value="">Завод: все</option></select>
+      <button class="btn ghost" onclick="resetFilters()">Сбросить</button>
+    </div>
+
+    <div class="bulkbar">
+      <span id="selInfo" class="sel-info">0 выбрано</span>
+      <div class="bulk-actions">
+        <select id="addToPlan" class="mini-select"></select>
+        <button class="btn primary" onclick="addSelectedToPlan()">Добавить в тест-план</button>
+        <button class="btn ghost" onclick="selectAllVisible(true)">Выбрать все</button>
+        <button class="btn ghost" onclick="selectAllVisible(false)">Снять</button>
+      </div>
+    </div>
+
+    <div class="table-box">
+      <table class="grid" id="catalogTable">
+        <thead>
+          <tr>
+            <th class="ck"><input type="checkbox" id="ckAll" onchange="selectAllVisible(this.checked)"></th>
+            <th class="num">№</th>
+            <th>Приор.</th>
+            <th>Статус</th>
+            <th>Страна</th>
+            <th>Отгрузка</th>
+            <th>Оплата</th>
+            <th>Валюта оплаты</th>
+            <th>Завод</th>
+            <th>Комплект.</th>
+            <th>Описание</th>
+            <th class="checks">ОД</th>
+            <th class="checks">ИМ</th>
+            <th class="checks">FI</th>
+            <th class="checks">BW</th>
+          </tr>
+        </thead>
+        <tbody id="catalogBody"></tbody>
+      </table>
+    </div>
+    <div class="table-foot"><span id="catCount"></span></div>
+  </section>
+
+  <!-- ТЕСТ-ПЛАНЫ -->
+  <section id="view-plans" class="view" style="display:none">
+    <div class="plans-head">
+      <div class="sec-title">Мои тест-планы</div>
+      <button class="btn primary" onclick="createPlan()">＋ Новый тест-план</button>
+    </div>
+    <div id="plansList" class="plans-grid"></div>
+  </section>
+
+  <!-- ДЕТАЛЬ ПЛАНА -->
+  <section id="view-plan" class="view" style="display:none">
+    <div class="plan-top">
+      <button class="btn ghost" onclick="goView('plans')">← К списку</button>
+      <div class="plan-top-actions">
+        <button class="btn ghost" onclick="exportPlanCsv()">Экспорт CSV</button>
+        <button class="btn ghost" onclick="exportPlanJson()">Экспорт JSON</button>
+        <button class="btn danger" onclick="deleteCurrentPlan()">Удалить план</button>
+      </div>
+    </div>
+    <div class="plan-card">
+      <div class="plan-fields">
+        <label>Название<input id="pName" oninput="updatePlanField('name',this.value)"></label>
+        <label>Версия / релиз<input id="pVer" oninput="updatePlanField('ver',this.value)"></label>
+        <label>Среда / стенд<input id="pEnv" oninput="updatePlanField('env',this.value)"></label>
+        <label>Тестировщик<input id="pTester" oninput="updatePlanField('tester',this.value)"></label>
+      </div>
+      <div class="plan-stats" id="planStats"></div>
+    </div>
+
+    <div class="bulkbar">
+      <span class="sel-info">Кейсы в плане</span>
+      <div class="bulk-actions">
+        <button class="btn ghost" onclick="pickCasesForPlan()">＋ Добавить кейсы из каталога</button>
+        <select id="bulkResult" class="mini-select" onchange="applyBulkResult(this.value);this.value=''">
+          <option value="">Массово: статус…</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="table-box">
+      <table class="grid item-grid">
+        <thead>
+          <tr>
+            <th class="num">№</th>
+            <th>Приор.</th>
+            <th>Страна</th>
+            <th>Отгрузка</th>
+            <th>Оплата</th>
+            <th>Валюта</th>
+            <th>Описание</th>
+            <th class="res-col">Результат</th>
+            <th class="params-col">Параметры</th>
+            <th class="ck"></th>
+          </tr>
+        </thead>
+        <tbody id="planItems"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<div id="modalHost"></div>
+
+<script src="db.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
