@@ -16,11 +16,15 @@
     </div>
   </div>
   <nav class="tabs">
-    <button class="tab on" data-view="catalog" onclick="goView('catalog')">Каталог кейсов</button>
+    <button class="tab on" data-view="catalog" onclick="goView('catalog')">Каталог</button>
     <button class="tab" data-view="plans" onclick="goView('plans')">Тест-планы <span class="pill" id="plansCount">0</span></button>
+    <button class="tab" data-view="coverage" onclick="goView('coverage')">Покрытие</button>
+    <button class="tab" data-view="analytics" onclick="goView('analytics')">Аналитика</button>
+    <button class="tab" data-view="defects" onclick="goView('defects')">Дефекты <span class="pill" id="defectsCount">0</span></button>
   </nav>
   <div class="topbar-right">
     <span class="save-status" id="saveStatus">—</span>
+    <button class="user-btn" id="userBtn" onclick="openUserMenu()">—</button>
     <button class="theme-btn" id="themeBtn" title="Тема" onclick="toggleTheme()">🌙</button>
   </div>
 </header>
@@ -36,9 +40,9 @@
         <button class="btn ghost" onclick="exportCatalogJson()">Экспорт JSON</button>
         <button class="btn ghost" onclick="exportCatalogCsv()">Экспорт CSV</button>
         <label class="btn ghost file-btn">Импорт JSON<input type="file" accept=".json,application/json" hidden onchange="importCatalogFile(this)"></label>
+        <button class="btn ghost" onclick="openSync()">⟳ Синк из Google Sheets</button>
       </div>
     </div>
-
     <div class="filters">
       <input type="search" id="fSearch" class="f-search" placeholder="Поиск по № , описанию, заказу, валюте…" oninput="renderCatalog()">
       <select id="fPriority" onchange="renderCatalog()"><option value="">Приоритет: все</option></select>
@@ -50,7 +54,6 @@
       <select id="fPlant" onchange="renderCatalog()"><option value="">Завод: все</option></select>
       <button class="btn ghost" onclick="resetFilters()">Сбросить</button>
     </div>
-
     <div class="bulkbar">
       <span id="selInfo" class="sel-info">0 выбрано</span>
       <div class="bulk-actions">
@@ -60,7 +63,6 @@
         <button class="btn ghost" onclick="selectAllVisible(false)">Снять</button>
       </div>
     </div>
-
     <div class="table-box">
       <table class="grid" id="catalogTable">
         <thead>
@@ -80,6 +82,7 @@
             <th class="checks">ИМ</th>
             <th class="checks">FI</th>
             <th class="checks">BW</th>
+            <th class="checks">Шаги</th>
           </tr>
         </thead>
         <tbody id="catalogBody"></tbody>
@@ -105,6 +108,8 @@
     <div class="plan-top">
       <button class="btn ghost" onclick="goView('plans')">← К списку</button>
       <div class="plan-top-actions">
+        <button class="btn ghost" id="mineBtn" onclick="toggleMine()">Мои кейсы</button>
+        <button class="btn ghost" onclick="setAllStepsFromTemplates()">Шаги из каталога</button>
         <button class="btn ghost" onclick="openCompare()">Сравнить…</button>
         <button class="btn ghost" onclick="exportPlanCsv()">Экспорт CSV</button>
         <button class="btn ghost" onclick="exportPlanJson()">Экспорт JSON</button>
@@ -120,17 +125,14 @@
       </div>
       <div class="plan-stats" id="planStats"></div>
     </div>
-
     <div class="bulkbar">
       <span class="sel-info">Кейсы в плане</span>
       <div class="bulk-actions">
         <button class="btn ghost" onclick="pickCasesForPlan()">＋ Добавить кейсы из каталога</button>
-        <select id="bulkResult" class="mini-select" onchange="applyBulkResult(this.value);this.value=''">
-          <option value="">Массово: статус…</option>
-        </select>
+        <select id="bulkResult" class="mini-select" onchange="applyBulkResult(this.value);this.value=''"></select>
+        <select id="bulkAssignee" class="mini-select" onchange="applyBulkAssignee(this.value);this.value=''"></select>
       </div>
     </div>
-
     <div class="table-box">
       <table class="grid item-grid">
         <thead>
@@ -144,11 +146,43 @@
             <th>Описание</th>
             <th class="assignee-col">Ответств.</th>
             <th class="res-col">Результат</th>
-            <th class="params-col">Параметры</th>
+            <th class="params-col">Детали</th>
             <th class="ck"></th>
           </tr>
         </thead>
         <tbody id="planItems"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ПОКРЫТИЕ -->
+  <section id="view-coverage" class="view" style="display:none">
+    <div class="sec-title" style="margin-bottom:14px">Матрица покрытия</div>
+    <div id="coverageBody"></div>
+  </section>
+
+  <!-- АНАЛИТИКА -->
+  <section id="view-analytics" class="view" style="display:none">
+    <div class="sec-title" style="margin-bottom:14px">Аналитика клуба тестирования</div>
+    <div id="analyticsBody"></div>
+  </section>
+
+  <!-- ДЕФЕКТЫ -->
+  <section id="view-defects" class="view" style="display:none">
+    <div class="cat-toolbar">
+      <div class="sec-title">Дефекты</div>
+      <div class="toolbar-actions">
+        <select id="dFilterStatus" class="mini-select" onchange="renderDefects()"></select>
+        <select id="dFilterSeverity" class="mini-select" onchange="renderDefects()"></select>
+        <button class="btn primary" onclick="openDefectModal(null)">＋ Дефект</button>
+      </div>
+    </div>
+    <div class="table-box">
+      <table class="grid">
+        <thead>
+          <tr><th class="num">ID</th><th>Заголовок</th><th>Кейс</th><th>Критичность</th><th>Статус</th><th>Ответственный</th><th>Обновлён</th><th class="ck"></th></tr>
+        </thead>
+        <tbody id="defectsBody"></tbody>
       </table>
     </div>
   </section>
