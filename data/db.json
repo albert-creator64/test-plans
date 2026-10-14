@@ -6025,32 +6025,5 @@
       ]
     }
   ],
-  "plans": [
-    {
-      "id": "smoke-test",
-      "name": "SMOKE TEST",
-      "ver": "v0",
-      "env": "test",
-      "tester": "bot",
-      "created": "2026-10-14T10:17:59.038Z",
-      "updated": "2026-10-14T10:17:59.048Z",
-      "items": [
-        {
-          "caseId": "case-1",
-          "result": "pass",
-          "params": {
-            "env": "test",
-            "orderNo": "123",
-            "custom": [
-              {
-                "name": "k",
-                "value": "v"
-              }
-            ]
-          },
-          "comment": "ok"
-        }
-      ]
-    }
-  ]
+  "plans": []
 }
