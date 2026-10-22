@@ -10,6 +10,8 @@ let selected = new Set();
 let currentPlanId = null;
 let openParams = new Set();
 let mineOnly = false;
+let catMode = 'table';
+let excelParams = new Set();
 
 function ci(name) { return DB.columns.findIndex(c => c.label === name); }
 function val(c, name) { const i = ci(name); return i < 0 ? '' : (c.v[i] || ''); }
@@ -146,6 +148,11 @@ function stTag(v) { const cls = v === 'Новый' ? 'st-Новый' : v === 'О
 /* ---------------- catalog ---------------- */
 function renderCatalog() {
   const list = filteredCatalog();
+  el('catTableBox').style.display = catMode === 'excel' ? 'none' : 'block';
+  el('catExcelBox').style.display = catMode === 'excel' ? 'block' : 'none';
+  el('catBulkbar').style.display = catMode === 'excel' ? 'none' : 'flex';
+  const mb = el('catModeBtn'); if (mb) mb.textContent = catMode === 'excel' ? 'Таблица' : 'Excel';
+  if (catMode === 'excel') { renderExcel(list); return; }
   const body = el('catalogBody');
   if (!DB.catalog.length) { body.innerHTML = '<tr><td colspan="16" class="empty">Каталог пуст. Добавьте кейс или импортируйте JSON.</td></tr>'; el('catCount').textContent = ''; return; }
   body.innerHTML = list.map(c => {
@@ -172,6 +179,44 @@ function renderCatalog() {
   }).join('');
   el('catCount').textContent = 'Показано: ' + list.length + ' из ' + DB.catalog.length + ' · выбрано: ' + selected.size;
   updateSelInfo();
+}
+
+function toggleCatMode() { catMode = catMode === 'excel' ? 'table' : 'excel'; renderCatalog(); }
+function renderExcel(list) {
+  const ro = !can('editCatalog');
+  const numIdx = ci('№ кейса');
+  el('excelHead').innerHTML = '<th class="num">№</th>' + DB.columns.map(col => '<th class="excel-th g-' + col.group + '">' + esc(col.label) + '</th>').join('') + '<th class="ck"></th>';
+  el('excelBody').innerHTML = list.map(c => {
+    const cells = DB.columns.map((col, idx) => {
+      if (idx === numIdx) return '<td class="num ro">' + c.num + '</td>';
+      return '<td><input class="excel-cell" value="' + esc(c.v[idx] || '') + '"' + (ro ? ' disabled' : '') + ' oninput="setCell(\'' + c.id + '\',' + idx + ',this.value)"></td>';
+    }).join('');
+    return '<tr><td class="num"><span class="link" onclick="showCase(\'' + c.id + '\')">' + c.num + '</span></td>' + cells +
+      '<td class="ck">' + (ro ? '' : '<button class="icon-btn danger" title="Удалить" onclick="delExcelRow(\'' + c.id + '\')">✕</button>') + '</td></tr>';
+  }).join('');
+  el('catCount').textContent = 'Режим Excel · строк: ' + list.length + ' из ' + DB.catalog.length + (ro ? ' · только чтение' : ' · редактирование');
+}
+function setCell(id, idx, value) {
+  if (!can('editCatalog')) return;
+  const c = caseById(id); if (!c) return;
+  c.v[idx] = value;
+  scheduleSave();
+}
+function addExcelRow() {
+  if (!can('editCatalog')) return alert('Добавление доступно администратору');
+  const num = DB.catalog.reduce((m, x) => Math.max(m, x.num || 0), 0) + 1;
+  const v = DB.columns.map(() => ''); const numIdx = ci('№ кейса'); if (numIdx >= 0) v[numIdx] = String(num);
+  const c = { id: 'case-' + num + '-' + Math.random().toString(36).slice(2, 5), num: num, v: v };
+  DB.catalog.push(c); scheduleSave(); renderExcel(filteredCatalog());
+  el('catCount').textContent = 'Добавлен кейс №' + num + ' · заполните значения в таблице';
+}
+function delExcelRow(id) {
+  if (!can('editCatalog')) return alert('Удаление доступно администратору');
+  const c = caseById(id); if (!c) return;
+  if (!confirm('Удалить кейс №' + c.num + ' из каталога? Он также будет убран из всех тест-планов.')) return;
+  DB.catalog = DB.catalog.filter(x => x.id !== id);
+  DB.plans.forEach(p => { p.items = (p.items || []).filter(i => i.caseId !== id); });
+  selected.delete(id); scheduleSave(); renderExcel(filteredCatalog());
 }
 function toggleSel(id, on) { if (on) selected.add(id); else selected.delete(id); renderCatalog(); }
 function selectAllVisible(on) { filteredCatalog().forEach(c => { if (on) selected.add(c.id); else selected.delete(c.id); }); el('ckAll').checked = false; renderCatalog(); }
@@ -298,10 +343,60 @@ function detailRow(it, c) {
     '<div class="param-full"><div class="kvh">Дефекты ' + (defs.length ? '(' + defs.length + ')' : '') + '</div>' +
     defs.map(id => { const d = defectById(id); return d ? '<div class="spec">🐞 <span class="link" onclick="openDefectModal(\'' + id + '\')">' + esc(d.title) + '</span> <span class="sev sev-' + d.severity + '">' + SEVERITY_LABEL[d.severity] + '</span> <span class="dstat dstat-' + d.status + '">' + DEFSTAT_LABEL[d.status] + '</span></div>' : ''; }).join('') +
     (ro ? '' : '<div class="details-actions"><button class="btn ghost" onclick="openDefectModal(null,\'' + it.caseId + '\')">＋ Создать дефект</button></div>') + '</div>' +
-    '<div class="param-full spec">' + specOf(c) + '</div>' +
+    caseParamsBlock(it, c) +
     '</div></td></tr>';
 }
-function kvStyle() {}
+function caseParamValue(it, col, idx) {
+  const ov = it.overrides || {};
+  return (col.k in ov) ? ov[col.k] : (caseById(it.caseId).v[idx] || '');
+}
+function caseParamsBlock(it, c) {
+  const ro = !can('editPlan');
+  const excel = excelParams.has(it.caseId);
+  const ov = it.overrides || {};
+  const groups = {}; DB.columns.forEach((col, idx) => { if (col.label !== '№ кейса') (groups[col.group] = groups[col.group] || []).push({ col, idx }); });
+  let inner;
+  if (excel) {
+    inner = '<div class="pexcel"><table><thead><tr>' + DB.columns.map(col => '<th class="g-' + col.group + '">' + esc(col.label) + '</th>').join('') + '</tr></thead><tbody><tr>' +
+      DB.columns.map((col, idx) => {
+        if (col.label === '№ кейса') return '<td class="num">' + c.num + '</td>';
+        const v = caseParamValue(it, col, idx);
+        const changed = (col.k in ov) && ov[col.k] !== (c.v[idx] || '');
+        return '<td' + (changed ? ' class="ov-cell"' : '') + '><input value="' + esc(v) + '"' + (ro ? ' disabled' : '') + ' oninput="setCaseParam(\'' + it.caseId + '\',\'' + col.k + '\',this.value)"></td>';
+      }).join('') + '</tr></tbody></table></div>';
+  } else {
+    inner = GROUP_ORDER.filter(g => groups[g]).map(g => {
+      const items = groups[g].map(({ col, idx }) => {
+        const v = caseParamValue(it, col, idx);
+        const changed = (col.k in ov) && ov[col.k] !== (c.v[idx] || '');
+        return '<label class="pg-item' + (changed ? ' ov-changed' : '') + '"><span>' + esc(col.label) + '</span><input value="' + esc(v) + '"' + (ro ? ' disabled' : '') + ' oninput="setCaseParam(\'' + it.caseId + '\',\'' + col.k + '\',this.value)"></label>';
+      }).join('');
+      return '<div class="pg-group"><h5>' + esc(GROUP_TITLES[g] || g) + '</h5><div class="pg-grid">' + items + '</div></div>';
+    }).join('');
+  }
+  const changedCount = Object.keys(ov).filter(k => { const idx = DB.columns.findIndex(x => x.k === k); return idx >= 0 && ov[k] !== (c.v[idx] || ''); }).length;
+  return '<div class="param-full case-params"><div class="kvh">Параметры кейса (все значения)' +
+    (changedCount ? ' <span class="ov-count">изменено: ' + changedCount + '</span>' : '') +
+    '<span class="pg-toggle"><button class="btn ghost' + (!excel ? ' primary' : '') + '" onclick="setParamView(\'' + it.caseId + '\',\'form\')">Параметры</button>' +
+    '<button class="btn ghost' + (excel ? ' primary' : '') + '" onclick="setParamView(\'' + it.caseId + '\',\'excel\')">Excel</button></span>' +
+    (ro || !changedCount ? '' : '<button class="btn ghost" onclick="resetCaseParams(\'' + it.caseId + '\')">Сбросить</button>') + '</div>' +
+    inner + '</div>';
+}
+function setParamView(caseId, mode) { if (mode === 'excel') excelParams.add(caseId); else excelParams.delete(caseId); renderPlanItems(); }
+function setCaseParam(caseId, colKey, value) {
+  if (!guardPlan()) return;
+  const it = itemOf(caseId); if (!it) return;
+  const c = caseById(caseId); const idx = DB.columns.findIndex(x => x.k === colKey);
+  it.overrides = it.overrides || {};
+  if (c && idx >= 0 && value === (c.v[idx] || '')) delete it.overrides[colKey];
+  else it.overrides[colKey] = value;
+  markItem(it); scheduleSave();
+}
+function resetCaseParams(caseId) {
+  if (!guardPlan()) return;
+  const it = itemOf(caseId); if (!it) return;
+  it.overrides = {}; markItem(it); scheduleSave(); renderPlanItems();
+}
 function specOf(c) {
   const names = ['Завод', 'Условие отгрузки', 'Тип оплаты', 'Валюта оплаты', 'Тип комплектования', 'Тип выдачи', 'Коробка вскрыта при приёмке', 'Коробка вскрыта на кассе'];
   return '<b>Параметры из документа:</b> ' + names.map(n => n + ': ' + (esc(val(c, n)) || '—')).join(' · ');
@@ -708,6 +803,11 @@ function openModal(title, body) { el('modalHost').innerHTML = '<div class="modal
 function closeModal() { el('modalHost').innerHTML = ''; document.body.style.overflow = ''; }
 
 /* ---------------- export plan ---------------- */
+function itemVal(it, c, name) {
+  const idx = ci(name); if (idx < 0) return '';
+  const col = DB.columns[idx]; const ov = it.overrides || {};
+  return (col.k in ov) ? ov[col.k] : (c.v[idx] || '');
+}
 function planRows(p) {
   const head = ['№ кейса', 'Приоритет', 'Статус кейса', 'Страна', 'Отгрузка', 'Тип оплаты', 'Валюта оплаты', 'Завод', 'Комплектование', 'Описание', 'Ответственный', 'Результат', 'Среда', '№ заказа (факт)', 'Ожидаемый результат', 'Фактический результат', 'Шаги', 'Дефекты', 'Комментарий', 'Доп. параметры'];
   const rows = [head];
@@ -716,7 +816,7 @@ function planRows(p) {
     const extra = (pr.custom || []).filter(kv => kv.name || kv.value).map(kv => (kv.name || '') + '=' + (kv.value || '')).join('; ');
     const steps = (it.steps || []).map((s, i) => (i + 1) + ') ' + s.text + ' → ' + (s.expected || '') + ' [' + resultInfo(s.result || '').label + ']').join(' | ');
     const defs = (it.defectIds || []).map(id => { const d = defectById(id); return d ? d.title + '(' + SEVERITY_LABEL[d.severity] + '/' + DEFSTAT_LABEL[d.status] + ')' : ''; }).filter(Boolean).join('; ');
-    rows.push([c.num, val(c, 'Приоритет'), val(c, 'Статус'), val(c, 'Страна'), val(c, 'Условие отгрузки'), val(c, 'Тип оплаты'), val(c, 'Валюта оплаты'), val(c, 'Завод'), val(c, 'Тип комплектования'), val(c, 'Описание (доп. условия)'), it.assignee || '', resultInfo(it.result || '').label, pr.env || '', pr.orderNo || '', pr.expected || '', pr.actual || '', steps, defs, pr.comment || '', extra]);
+    rows.push([c.num, itemVal(it, c, 'Приоритет'), itemVal(it, c, 'Статус'), itemVal(it, c, 'Страна'), itemVal(it, c, 'Условие отгрузки'), itemVal(it, c, 'Тип оплаты'), itemVal(it, c, 'Валюта оплаты'), itemVal(it, c, 'Завод'), itemVal(it, c, 'Тип комплектования'), itemVal(it, c, 'Описание (доп. условия)'), it.assignee || '', resultInfo(it.result || '').label, pr.env || '', pr.orderNo || '', pr.expected || '', pr.actual || '', steps, defs, pr.comment || '', extra]);
   });
   return rows;
 }
