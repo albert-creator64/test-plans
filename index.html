@@ -36,6 +36,7 @@
     <div class="cat-toolbar">
       <div class="sec-title">Каталог кейсов</div>
       <div class="toolbar-actions">
+        <button class="btn ghost" id="catModeBtn" onclick="toggleCatMode()">Excel</button>
         <button class="btn ghost" onclick="addCaseModal()">＋ Кейс</button>
         <button class="btn ghost" onclick="exportCatalogJson()">Экспорт JSON</button>
         <button class="btn ghost" onclick="exportCatalogCsv()">Экспорт CSV</button>
@@ -54,7 +55,7 @@
       <select id="fPlant" onchange="renderCatalog()"><option value="">Завод: все</option></select>
       <button class="btn ghost" onclick="resetFilters()">Сбросить</button>
     </div>
-    <div class="bulkbar">
+    <div class="bulkbar" id="catBulkbar">
       <span id="selInfo" class="sel-info">0 выбрано</span>
       <div class="bulk-actions">
         <select id="addToPlan" class="mini-select"></select>
@@ -63,7 +64,7 @@
         <button class="btn ghost" onclick="selectAllVisible(false)">Снять</button>
       </div>
     </div>
-    <div class="table-box">
+    <div class="table-box" id="catTableBox">
       <table class="grid" id="catalogTable">
         <thead>
           <tr>
@@ -86,6 +87,16 @@
           </tr>
         </thead>
         <tbody id="catalogBody"></tbody>
+      </table>
+    </div>
+    <div class="table-box excel-box" id="catExcelBox" style="display:none">
+      <div class="excel-bar">
+        <span class="spec">Режим Excel: редактируйте любую ячейку прямо в таблице. Столбец «№ кейса» — только чтение.</span>
+        <button class="btn ghost" onclick="addExcelRow()">＋ Добавить строку</button>
+      </div>
+      <table class="grid excel-grid">
+        <thead><tr id="excelHead"></tr></thead>
+        <tbody id="excelBody"></tbody>
       </table>
     </div>
     <div class="table-foot"><span id="catCount"></span></div>
