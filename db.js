@@ -45,7 +45,7 @@ function normalizeDB() {
   DB.defects = DB.defects || [];
   if (!Array.isArray(DB.users) || !DB.users.length) DB.users = [{ id: 'u-admin', name: 'Администратор', role: 'admin', pin: '1234' }];
   if (!DB.meta.sheetCsv) DB.meta.sheetCsv = DEFAULT_SHEET;
-  DB.plans.forEach(p => { p.items = p.items || []; p.items.forEach(i => { i.params = i.params || { custom: [] }; i.params.custom = i.params.custom || []; i.steps = i.steps || []; i.defectIds = i.defectIds || []; }); });
+  DB.plans.forEach(p => { p.items = p.items || []; p.items.forEach(i => { i.params = i.params || { custom: [] }; i.params.custom = i.params.custom || []; i.steps = i.steps || []; i.defectIds = i.defectIds || []; i.overrides = i.overrides || {}; }); });
 }
 
 async function loadDB() {
