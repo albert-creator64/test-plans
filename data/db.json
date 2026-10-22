@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Конструктор тест-планов",
-    "updated": "2026-10-22T09:52:51.672Z",
+    "updated": "2026-10-22T09:57:54.197Z",
     "sheetCsv": "https://docs.google.com/spreadsheets/d/1ic_aTNK37zygQxjcibkWMqjuUcEg_eT-FcnngiOEIWc/export?format=csv&gid=2131954568"
   },
   "columns": [
@@ -310,7 +310,7 @@
         "65801185",
         "Instore (IN)",
         "-",
-        "Y",
+        "",
         "Y",
         "-",
         "-",
