@@ -303,3 +303,6 @@ body.dark .excel-grid th.g-payment{background:#2a2350}
 .pexcel td.ov-cell input{border-color:var(--orange);background:var(--orange-soft)}
 
 @media(max-width:700px){.step-row{grid-template-columns:20px 1fr 30px}.step-row .step-res,.step-row .step-exp{grid-column:2/3}.def-grid{grid-template-columns:1fr}.pg-grid{grid-template-columns:1fr}}
+
+.workbook-box{overflow:auto;max-height:calc(100vh - 250px)}
+.workbook-grid{min-width:2500px}.workbook-grid th{position:sticky;top:0;z-index:2;min-width:140px;white-space:normal}.workbook-grid td{min-width:140px;vertical-align:top}.workbook-cell{width:100%;min-height:36px;resize:vertical;white-space:pre-wrap}
