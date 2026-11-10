@@ -4,17 +4,21 @@ const CFG = {
   branch: 'main',
   path: 'data/db.json',
   workflow: 'sync-catalog.yml',
-  token: ['ghp_lQcJqVSfk7k', 'bpdDArjZxsNrIa2', 'mrvA24IVFP'].join('')
+  token: ''
 };
 
-const DEFAULT_SHEET = 'https://docs.google.com/spreadsheets/d/1ic_aTNK37zygQxjcibkWMqjuUcEg_eT-FcnngiOEIWc/export?format=csv&gid=2131954568';
+const DEFAULT_SHEET = 'https://docs.google.com/spreadsheets/d/1zWaNWFR5WIOnQOHYCv4xpa8LyDuQhvQunAuHaP0USq8/gviz/tq?tqx=out:csv&gid=583507498';
 
 let DB = null;
 let DB_SHA = null;
 let SAVE_TIMER = null;
 
 function apiUrl() { return 'https://api.github.com/repos/' + CFG.owner + '/' + CFG.repo + '/contents/' + CFG.path; }
-function ghHeaders() { return { 'Authorization': 'Bearer ' + CFG.token, 'Accept': 'application/vnd.github+json' }; }
+function ghHeaders() {
+  const headers = { 'Accept': 'application/vnd.github+json' };
+  if (CFG.token) headers.Authorization = 'Bearer ' + CFG.token;
+  return headers;
+}
 
 function b64encodeUtf8(str) {
   const bytes = new TextEncoder().encode(str);
@@ -49,6 +53,10 @@ function normalizeDB() {
 }
 
 async function loadDB() {
+  try {
+    const local = await fetch('data/db.json?t=' + Date.now(), { cache: 'no-store' });
+    if (local.ok) { DB = await local.json(); DB_SHA = null; normalizeDB(); return DB; }
+  } catch (_) {}
   const r = await fetch(apiUrl() + '?ref=' + CFG.branch + '&t=' + Date.now(), { headers: ghHeaders(), cache: 'no-store' });
   if (r.status === 404) { DB = defaultDB(); DB_SHA = null; return DB; }
   if (!r.ok) throw new Error('load ' + r.status);
@@ -67,7 +75,11 @@ function scheduleSave() {
   if (!can('editPlan') && !can('editCatalog') && !can('manageUsers')) { setStatus('Только чтение', 'err'); return; }
   setStatus('Изменения…', 'pending');
   clearTimeout(SAVE_TIMER);
-  SAVE_TIMER = setTimeout(() => { saveDB().catch(() => setStatus('Ошибка сохранения', 'err')); }, 700);
+  SAVE_TIMER = setTimeout(() => {
+    localStorage.setItem('tp_db', JSON.stringify(DB));
+    setStatus('Сохранено локально ' + new Date().toLocaleTimeString('ru-RU'), 'ok');
+    if (CFG.token) saveDB().catch(() => setStatus('Ошибка сохранения', 'err'));
+  }, 700);
 }
 async function saveDB() {
   if (!DB) return;
