@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const DB_PATH = path.join(__dirname, '..', 'data', 'db.json');
-const DEFAULT_SHEET = 'https://docs.google.com/spreadsheets/d/1ic_aTNK37zygQxjcibkWMqjuUcEg_eT-FcnngiOEIWc/export?format=csv&gid=2131954568';
+const DEFAULT_SHEET = 'https://docs.google.com/spreadsheets/d/1zWaNWFR5WIOnQOHYCv4xpa8LyDuQhvQunAuHaP0USq8/gviz/tq?tqx=out:csv&gid=583507498';
 
 const COL_GROUPS = [
   ['main', 'Приоритет'], ['main', '№ кейса'], ['main', 'Статус'],
@@ -53,25 +53,25 @@ async function main() {
   if (!res.ok) throw new Error('fetch sheet ' + res.status);
   const raw = await res.text();
   const rows = parseCSV(raw);
-  const header = rows[1];
+  const header = rows[0];
   if (!header) throw new Error('no header row');
   const ncol = header.length;
 
-  const columns = COL_GROUPS.map(([group, label], i) => ({ k: 'c' + i, group, label }));
+  const groups = ['main','main','main','goods','goods','goods','goods','goods','ret_dvd','ret_dvd','ret_dvd','ret_dvd','ret_dvd','ret_notdvd','ret_notdvd','ret_notdvd','ret_notdvd','ret_notdvd','exchange','exchange','exchange','exchange','exchange','meta','reports','reports','reports','reports','reports'];
+  const columns = header.map((label, i) => ({ k: 's' + i, group: groups[i] || 'main', label: label || ('Столбец ' + (i + 1)) }));
 
   const prevSteps = {};
   (db.catalog || []).forEach(c => { if (c.steps && c.steps.length) prevSteps[c.num] = c.steps; });
 
   const catalog = [];
-  for (let r = 2; r < rows.length; r++) {
+  for (let r = 1; r < rows.length; r++) {
     const row = rows[r];
-    if (!row || row.length < 3) continue;
-    const num = trim(row[1]);
-    if (!/^\d+$/.test(num)) continue;
+    if (!row || row.every(v => !trim(v))) continue;
     const v = [];
     for (let i = 0; i < ncol; i++) v.push(trim(row[i]));
-    const n = parseInt(num, 10);
-    const c = { id: 'case-' + n, num: n, v };
+    const num = trim(v[0]);
+    const n = /^\d+$/.test(num) ? parseInt(num, 10) : 100000 + r;
+    const c = { id: 'sheet-' + r, num: n, v };
     if (prevSteps[n]) c.steps = prevSteps[n];
     catalog.push(c);
   }
